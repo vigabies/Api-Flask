@@ -1,15 +1,17 @@
-from flask import Flask
+from flask import Flask, request
+from models.task import Task
 
 # Criando uma instância da aplicação Flask
 app = Flask(__name__)
 
-@app .route('/') # Rota para a página inicial
-def home():
-    return "Bem-vindo à minha aplicação Flask!"
+# Crud significa Create, Read, Update e Delete, que são as operações básicas de um banco de dados.
 
-@app.route('/about') # Rota para a página "Sobre"
-def about():   
-    return "Esta é uma aplicação de exemplo usando Flask."
+tasks = []
+
+@app.route('/tasks', methods=['POST'])
+def create_task():
+    data = request.get_json()
+
 
 if __name__ == '__main__':
     app.run(debug=True)  # Executando a aplicação em modo de depuração
