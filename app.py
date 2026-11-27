@@ -31,17 +31,20 @@ def create_task():
 
 @app.route('/tasks', methods=['GET'])
 def get_tasks():
-    task_list = []
-
-    for task in tasks:
-       task_list.append(task.to_dict())  
+    task_list = [task.to_dict() for task in tasks]
 
     output = {
         "tasks": task_list,
-        "total_tasks": 0
+        "total_tasks": len(task_list)
     }
-
     return jsonify(output)
+
+@app.route('/tasks/<int:task_id>', methods=['GET'])
+def get_task(task_id):
+    for t in tasks:
+        if t.id == task_id:
+            return jsonify(t.to_dict())
+    return jsonify({"message": "Tarefa não encontrada"}), 404
 
 if __name__ == '__main__':
     app.run(debug=True)
